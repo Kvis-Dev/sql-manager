@@ -36,16 +36,17 @@ class sql {
     }
     
     function get_tables() {
-        mysqli_query($this->mysql, 'USE ' . $_GET['db']);
+
+        mysqli_query($this->mysql, 'USE `' . $_GET['db'].'`');
         $q = mysqli_query($this->mysql, "SHOW TABLES");
         return $this->result4x2($q);
     }
     
     function get_table_data($table) {
-        mysqli_query($this->mysql, 'USE ' . $_GET['db']);
+        mysqli_query($this->mysql, 'USE `' . $_GET['db'].'`');
         
-        $q = mysqli_query($this->mysql, "SELECT * FROM $table LIMIT 50;");
-//        print "SELECT * FROM $table LIMIT 50;";
+        $q = mysqli_query($this->mysql, "SELECT * FROM `$table` LIMIT 50;");
+
         return $this->result4x2($q);
     }
     
