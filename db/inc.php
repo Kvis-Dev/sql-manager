@@ -1,6 +1,5 @@
 <?php
 
-
 class sql {
     
     private $mysql;
@@ -44,23 +43,46 @@ class sql {
     
     function get_table_data($table) {
         mysqli_query($this->mysql, 'USE `' . $_GET['db'].'`');
-        
-        $q = mysqli_query($this->mysql, "SELECT * FROM `$table` LIMIT 50;");
 
-        return $this->result4x2($q);
+        $limit = 50;
+        $offset = 0;
+
+        if ($v = get($_GET['func'], 'limit')) {
+            $limit = $v;
+        }
+        if ($v = get($_GET['func'], 'offset')) {
+            $offset = $v;
+        }
+
+
+        $q = mysqli_query($this->mysql, "SELECT SQL_CALC_FOUND_ROWS * FROM $table LIMIT $offset, $limit;");
+//        print "SELECT * FROM $table LIMIT 50;";
+        $res = $this->result4x2($q);
+
+        $countret = $this->result(mysqli_query($this->mysql, "SELECT FOUND_ROWS();"));
+        $res['count'] = $countret[0][0];
+        return $res;
     }
-    
-    function result4x2($result){
+
+    function result($result) {
+        $ret = [];
+        while ($res = mysqli_fetch_array($result, MYSQLI_NUM)) {
+            $ret [] = $res;
+        }
+        return $ret;
+    }
+
+    function result4x2($result) {
         if (!$result) {
-            return [[],[]];
+            return [[], []];
         }
         $columns = mysqli_fetch_fields($result);
         $ret = [];
-        
-        while ($res = mysqli_fetch_array($result, MYSQLI_NUM)){
-            $ret []= $res;
+
+        while ($res = mysqli_fetch_array($result, MYSQLI_NUM)) {
+            $ret [] = $res;
         }
-        
+
         return [
             $columns,
             $ret

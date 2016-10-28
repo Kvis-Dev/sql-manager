@@ -8,13 +8,17 @@ function get($arr, $key){
     return null;
 }
 
-function url($name, $db, $table = '', $sys = '') {
+function url($name, $db, $table = '', $func = array()) {
     $url = '';
     if ($db) {
         $url = "/$db/";
     }
     if ($table) {
         $url = "/$db/$table/";
+    }
+    
+    foreach ($func as $fn => $fv) {
+        $url .= ':' . $fn . '(' . join(',', (array) $fv) . ')';
     }
     
     return "<a href='$url'>{$name}</a>";
