@@ -1,8 +1,9 @@
 <?php ?>
-<br/>
+        <a href="#menu-toggle" id="menu-toggle"></a>
+
 <ul class="sidebar-nav">
+    
     <li class="sidebar-brand">
-        <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
 
         <a href="/">
             Main page

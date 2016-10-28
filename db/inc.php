@@ -88,5 +88,9 @@ class sql {
             $ret
         ];
     }
+    
+    function query($q){
+        return mysqli_query($this->mysql, $q);
+    }
 
 }

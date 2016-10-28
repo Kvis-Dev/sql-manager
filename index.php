@@ -53,8 +53,11 @@ $requri_arr = array_filter(
         )
 );
 
+//var_dump($_GET);
 
-if (sizeof($requri_arr) == 1) {
+if (get($_GET['func'], 'system')) {
+    include './pages/system/'. join('.',get($_GET['func'], 'system')) . '.php';
+} else if (sizeof($requri_arr) == 1) {
     $_GET['db'] = $requri_arr[0];
     include './pages/tables.php';
 } else if (sizeof($requri_arr) == 2) {
