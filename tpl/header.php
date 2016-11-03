@@ -23,6 +23,13 @@
             <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
 
+        
+        <link rel="stylesheet" href="/codemirror/lib/codemirror.css" />
+        <script src="/codemirror/lib/codemirror.js"></script>
+        <script src="/codemirror/sql.js"></script>
+        <link rel="stylesheet" href="/codemirror/addon/hint/show-hint.css" />
+        <script src="/codemirror/addon/hint/show-hint.js"></script>
+        <script src="/codemirror/addon/hint/sql-hint.js"></script>
     </head>
 
     <body>

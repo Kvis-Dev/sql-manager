@@ -1,10 +1,15 @@
 <?php
 
 class sql {
-    
+
     private $mysql;
+    private $main = '';
     private static $self;
-    
+
+    function getMainQuery() {
+        return $this->main;
+    }
+
     protected function __construct() {
         $this->mysql = mysqli_connect('127.0.0.1', $_SESSION['login'], $_SESSION['password']);
         mysqli_set_charset($this->mysql, 'utf8');
@@ -20,7 +25,7 @@ class sql {
         }
         return self::$self;
     }
-    
+
     /**
      * 
      * @return sql
@@ -33,16 +38,16 @@ class sql {
         $q = mysqli_query($this->mysql, "SHOW DATABASES");
         return $this->result4x2($q);
     }
-    
+
     function get_tables() {
 
-        mysqli_query($this->mysql, 'USE `' . $_GET['db'].'`');
+//        mysqli_query($this->mysql, 'USE `' . $_GET['db'].'`');
         $q = mysqli_query($this->mysql, "SHOW TABLES");
         return $this->result4x2($q);
     }
-    
+
     function get_table_data($table) {
-        mysqli_query($this->mysql, 'USE `' . $_GET['db'].'`');
+//        mysqli_query($this->mysql, 'USE `' . $_GET['db'].'`');
 
         $limit = 50;
         $offset = 0;
@@ -55,11 +60,14 @@ class sql {
         }
 
 
-        $q = mysqli_query($this->mysql, "SELECT SQL_CALC_FOUND_ROWS * FROM $table LIMIT $offset, $limit;");
+        $q = $this->query("SELECT * FROM $table LIMIT $offset, $limit;", 1);
 //        print "SELECT * FROM $table LIMIT 50;";
         $res = $this->result4x2($q);
 
-        $countret = $this->result(mysqli_query($this->mysql, "SELECT FOUND_ROWS();"));
+        $q = $this->query("SELECT COUNT(*) FROM $table;");
+
+        $countret = $this->result($q);
+        
         $res['count'] = $countret[0][0];
         return $res;
     }
@@ -88,8 +96,13 @@ class sql {
             $ret
         ];
     }
-    
-    function query($q){
+
+    function query($q, $main = false) {
+
+        if ($main) {
+            $this->main = $q;
+        }
+
         return mysqli_query($this->mysql, $q);
     }
 

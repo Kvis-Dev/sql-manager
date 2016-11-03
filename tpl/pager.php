@@ -1,5 +1,4 @@
 <ul class="pagination">
-    <li><a href="#"> << </a></li>
 
     <?php
     if ($limit != 0) {
@@ -9,12 +8,28 @@
         $all = 0;
         $page = 0;
     }
-    for ($i = max([$page - 5, 0]); $i < min([$all, $page + 5]); $i++) {
+
+    $from = max([$page - 5, 0]);
+    $to = min([$all, $page + 5]);
+
+     if ($from > 0) { ?> 
+        <li><?= $urlfunc(0) ?></li>
+        <li> <a class="disabled">...</a> </li>
+
+    <?php 
+    
+     }
+        
+    for ($i = $from; $i < $to; $i++) {
+
         ?>
-        <li><?= $urlfunc($i) ?> </li>
+        <li class="<?= $page == $i ? 'active' : ''?>"><?= $urlfunc($i) ?> </li>
         <?php
     }
     ?>
+    <?php if ($all > $to) { ?> 
+        <li> <a class="disabled">...</a> </li>
+        <li><?= $urlfunc($all - 1) ?></li>
 
-    <li><a href="#"> >> </a></li>
+    <?php } ?>
 </ul>

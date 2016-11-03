@@ -3,13 +3,13 @@ include BASE . '/tpl/header.php';
 ?>
 List tables
 
-<ul>
+<table class="table table-hover table-responsive table-striped table-bordered">
 <?php
 foreach (sql::_()->get_tables()[1] as $db) {
-    print '<li>' . url($db[0],$_GET['db'],$db[0]) . '</li>';
+    print '<tr><td>' . url($db[0],$_GET['db'],$db[0]) . '</td></tr>';
 }
 ?>
-</ul>
+</table>
 <?php
 include BASE . '/tpl/footer.php';
 ?>
